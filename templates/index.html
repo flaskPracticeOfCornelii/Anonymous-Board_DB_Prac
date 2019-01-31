@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--Boot Strap-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+    
+    <link href="https://fonts.googleapis.com/css?family=Allan|Anton" rel="stylesheet">
+    <link href="static/css/fontello.css" rel="stylesheet">
+    <link href="static/css/animation.css" rel="stylesheet">
+    
+    <title>Anonymous query board</title>
+    
+    
+    <style>
+        html {
+            font-family: 'Anton', sans-serif;
+        }
+        td, table {
+            border:solid 1px black;
+            margin:1px 1px;
+        }
+        tr th:nth-child(2) {
+            width:400px;
+        }
+        tr th:nth-child(4) {
+            width:130px;
+        }
+        
+        h1 {font-family: 'Allan', cursive;}
+        header {
+            height: 150px;
+            padding-left:30px;
+        }
+        form > div {
+            font-size: 25px;
+            line-height: 1.5;
+            font-weight: bold;
+        }
+        body{
+            height:3000px;
+        }
+        th, td {
+            text-align:center;
+            font-weight:bold;
+        }
+        th {
+            font-size:25px;
+        }
+        #insert{
+            background-color:#909090;
+            transition-property:background-color;
+            transition-duration:0.5s;
+        }
+        #insert:hover {
+            background-color:#FFFFFF;
+        }
+        
+
+    </style>
+</head>
+<body>
+    <header class="bg-light">
+        <div class="container-fluid">
+            <div class="row">
+                <h1 class="display-1">Anonymous query board</h1>
+                <div class="icon-pencil mr-2 ml-auto animate-spin" style="font-size:60px;"></div>
+            </div>
+        </div>
+        
+        
+    </header>
+    
+    <div class="container pt-4" id="insert">
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <form action="/create" method="POST" >
+                    <div>
+                        Title:
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="title" id="exampleFormControlTextarea1" rows="1">{{content}}</textarea>
+                    </div>
+                    
+                    <!--<input type="text" name="title" style="height:30px; display:block; width:100%" />-->
+                    <div>
+                        Content : 
+                    </div>
+                    <div class="form-group">
+                        <textarea class="form-control" name="content" id="exampleFormControlTextarea1" rows="5">{{content}}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-success">POST</button>
+                    <!--<input type="submit" value="POST"/>-->
+                </form>
+            </div>
+        </div>
+    </div>
+    <h2 class="dispaly-3 mt-3 text-center bg-light pd-3">Board</h2>
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            <table class="table display:block">
+                <tr>    
+                    <th>Indicies</th>
+                    <th>Titles</th>
+                    <th>Contents</th>
+                    <th></th>
+                </tr>
+                {% for d in data %}
+                <tr>
+                    <td>{{d[0]}}</td>
+                    <td>{{d[1]}}</td>
+                    <td>{{d[2]}}</td>
+                    <td>
+                        <div class="container">
+                            <div class="row">
+                                <form action="/edit" method="POST">
+                                    <button type="submit" class="btn btn-success p-0 d-inline">Edit</button>
+                                    <input type="hidden" name="id" value={{d[0]}}>
+                                </form>
+                                <p style="padding: 0 10px;"> / </p>
+                                <form action="/delete" method="POST">
+                                    <button type="submit" class="btn btn-danger p-0 d-inline">Delete</button>
+                                    <input type="hidden" name="id" value={{d[0]}}>
+                                </form>
+                            </div>
+                        </div>
+                        
+                        
+                        <!--<a href="/delete/{{ d[0] }}">Delete</a>-->
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+
+    
+</body>
+</html>
